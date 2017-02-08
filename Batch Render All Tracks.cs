@@ -105,8 +105,8 @@ public class EntryPoint {
             }
             if (RenderMode.Project == renderMode) { // on toggled project mode
                 // actual render part
-                foreach(Sony.Vegas.Track track in myVegas.Project.Tracks) {
-                    if (track.IsValid()) {
+                foreach(Track track in myVegas.Project.Tracks) {
+                    if (track.IsAudio()) { // only for preset rendering
                         track.Solo = true;
                         // null check
                         String regionFilename = String.Format("{0}{1}{2}",
@@ -121,8 +121,6 @@ public class EntryPoint {
                         args.Length = track.Events[0].Length;
                         DoRender(args);
                         track.Solo = false;
-                    } else {
-                        // kys
                     }
                 }
             } else {
