@@ -79,10 +79,8 @@ public class EntryPoint {
         foreach (RenderItem renderItem in selectedTemplates) {
             // construct the file name (most of it)
             String filename = Path.Combine(outputDirectory,
-                                           FixFileName(baseFileName) +
-                                           FixFileName(renderItem.Renderer.FileTypeName) +
-                                           "_" +
-                                           FixFileName(renderItem.Template.Name));
+                                           FixFileName(baseFileName));
+            // file name fix
 
             //check to see if this is a QuickTime file...if so, file length cannot exceed 59 characters
             if (renderItem.Renderer.ClassID == Renderer.CLSID_CSfQT7RenderFileClass) {
