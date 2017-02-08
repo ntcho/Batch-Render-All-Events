@@ -1,0 +1,41 @@
+##########################################################################
+#       The list of presets for the script BatchRender+Events.cs         #
+#       --------------------------------------------------------         #
+#  Rule:                                                                 #
+#    1) first line - the name of preset;                                 #
+#    2) second line - placeholder of command for bat-file.               #
+#                                                                        #
+##########################################################################
+
+##########################################################################
+#        Файл списка пресетов для скрипта BatchRender+Events.cs          #
+#       --------------------------------------------------------         #
+#   Пресет описывается двумя строками:                                   #
+#    1) первая строка – имя пресета – используется в списке пресетов     #
+#       окна сохранения bat-файла;                                       #
+#    2) вторая строка – шаблон команды – используется для формирования   #
+#       содержания bat-файла.                                            #
+#                                                                        #
+##########################################################################
+
+
+// FFmpeg: DNxHD
+FFmpeg: DNxHD [1080p/25 36Mbps 8-bit, Audio Copy] (*.bat)|*.bat
+ffmpeg -i "{0}" -ss {2} -t {3} -vcodec dnxhd -vb 36M -r 25 -s 1920x1080 -acodec copy "{1}"
+
+FFmpeg: DNxHD [1080p/25 120Mbps 8-bit, Audio Copy] (*.bat)|*.bat
+ffmpeg -i "{0}" -ss {2} -t {3} -vcodec dnxhd -vb 120M -r 25 -s 1920x1080 -acodec copy "{1}"
+
+FFmpeg: DNxHD [1080p/25 185Mbps 8-bit, Audio Copy] (*.bat)|*.bat
+ffmpeg -i "{0}" -ss {2} -t {3} -vcodec dnxhd -vb 185M -r 25 -s 1920x1080 -acodec copy "{1}"
+
+
+// // MEncoder: DNxHD
+// MEncoder: DNxHD [1080p/25 36Mbps 8-bit, Audio Copy] (*.bat)|*.bat
+// mencoder -i "{0}" -ss {2} -endpos {3} -ovc lavc -lavcopts vcodec=dnxhd:vbitrate=36000 -vf scale=1920:1080 -oac copy "{1}"
+
+// MEncoder: DNxHD [1080p/25 120Mbps 8-bit, Audio Copy] (*.bat)|*.bat
+// mencoder -i "{0}" -ss {2} -endpos {3} -ovc lavc -lavcopts vcodec=dnxhd:vbitrate=120000 -vf scale=1920:1080 -oac copy "{1}"
+
+// MEncoder: DNxHD [1080p/25 185Mbps 8-bit, Audio Copy] (*.bat)|*.bat
+// mencoder -i "{0}" -ss {2} -endpos {3} -ovc lavc -lavcopts vcodec=dnxhd:vbitrate=185000 -vf scale=1920:1080 -oac copy "{1}"
