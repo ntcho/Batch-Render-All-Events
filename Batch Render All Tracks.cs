@@ -105,64 +105,28 @@ public class EntryPoint {
                                            FixFileName(tempstr2));
                 }
             }
-            if (RenderMode.Regions == renderMode) {
+            if (RenderMode.Project == renderMode) { // on toggled project mode
                 // actual render part
-                int regionIndex = 0;
-                BaseList<Sony.Vegas.Track> tracks = myVegas.Project.Tracks;
-                int trackCount = tracks.Count;
-                for (int i = 0; i < trackCount; i++) {
-                    Track track = tracks.IndexOf(trackCount);
-                    TrackEvent evnt;
-                    int regionLoopIndex = 0;
-                    if (track != null) {
+                foreach(Sony.Vegas.Track track in myVegas.Project.Tracks) {
+                    if (track.IsValid()) {
                         track.Solo = true;
-                        Event eventEnum = new Enumerator(track.Events);
-                        while (!eventEnum.atEnd()) {
-                            evnt = TrackEvent(eventEnum.item());
-                            // Render
-                            String regionFilename = String.Format("{0}_{1}{2}",
-                                                                  track.Name,
-                                                                  regionLoopIndex.ToString(),
-                                                                  // extension (must be)
-                                                                  renderItem.Extension);
-                            RenderArgs args = new RenderArgs();
-                            args.OutputFile = regionFilename;
-                            args.RenderTemplate = renderItem.Template;
-                            args.Start = evnt.Start;
-                            args.Length = evnt.Length;
-                            // Move to next event
-                            eventEnum.moveNext;
-                            regionLoopIndex++;
-                        }
-                        track.solo = false;
+                        // null check
+                        String regionFilename = String.Format("{0}{1}{2}",
+                                                              filename,
+                                                              track.Name,
+                                                              renderItem.Extension); // extension (must be)
+                        RenderArgs args = new RenderArgs();
+                        args.OutputFile = regionFilename;
+                        args.RenderTemplate = renderItem.Template;
+                        // Render
+                        args.Start = track.Events[0].Start;
+                        args.Length = track.Events[0].Length;
+                        DoRender(args);
+                        track.Solo = false;
+                    } else {
+                        // kys
                     }
                 }
-                // TODO FIX DEM SHIT
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(111) : The non-generic type 'System.Collections.ArrayList' cannot be used with type arguments
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(119) : The type or namespace name 'Enumerator' could not be found(are you missing a using directive or an assembly reference?)
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(120) : 'Sony.Vegas.MediaPool' does not contain a definition for 'atEnd' and no extension method 'atEnd' accepting a first argument of type 'Sony.Vegas.MediaPool' could be found(are you missing a using directive or an assembly reference?)
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(121) : 'Sony.Vegas.TrackEvent' is a 'type' but is used like a 'variable'
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(121) : 'Sony.Vegas.MediaPool' does not contain a definition for 'item' and no extension method 'item' accepting a first argument of type 'Sony.Vegas.MediaPool' could be found(are you missing a using directive or an assembly reference?)
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(134) : Only assignment, call, increment, decrement, await, and new object expressions can be used as a statement
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(134) : 'Sony.Vegas.MediaPool' does not contain a definition for 'moveNext' and no extension method 'moveNext' accepting a first argument of type 'Sony.Vegas.MediaPool' could be found(are you missing a using directive or an assembly reference?)
-            //C:\Program Files\Sony\Vegas Pro 13.0\Script Menu\Batch Render All Tracks.cs(137) : 'Sony.Vegas.Track' does not contain a definition for 'solo' and no extension method 'solo' accepting a first argument of type 'Sony.Vegas.Track' could be found(are you missing a using directive or an assembly reference?)
-                /*
-                foreach (Sony.Vegas.Region region in myVegas.Project.Regions) {
-                    String regionFilename = String.Format("{0}[{1}]{2}",
-                                                          filename,
-                                                          region.
-                                                          //regionIndex.ToString(),
-                                                          // extension (must be)
-                                                          renderItem.Extension);
-                    RenderArgs args = new RenderArgs();
-                    args.OutputFile = regionFilename;
-                    args.RenderTemplate = renderItem.Template;
-                    args.Start = region.Position;
-                    args.Length = region.Length;
-                    renders.Add(args);
-                    regionIndex++;
-                }
-                */
             } else {
                 filename += renderItem.Extension;
                 RenderArgs args = new RenderArgs();
