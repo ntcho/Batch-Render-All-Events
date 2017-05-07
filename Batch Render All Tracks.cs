@@ -117,9 +117,12 @@ public class EntryPoint {
                         args.OutputFile = regionFilename;
                         args.RenderTemplate = renderItem.Template;
                         // Render
-                        args.Start = track.Events[0].Start;
-                        args.Length = track.Events[0].Length;
-                        DoRender(args);
+                        if (track.Events.Count > 0) {
+                            // No events crash fix
+                            args.Start = track.Events[0].Start;
+                            args.Length = track.Events[0].Length;
+                            DoRender(args);
+                        }
                         track.Solo = false;
                     }
                 }
