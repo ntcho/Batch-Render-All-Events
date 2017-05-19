@@ -108,6 +108,9 @@ public class EntryPoint {
                 foreach(Track track in myVegas.Project.Tracks) {
                     if (track.IsAudio()) { // only for preset rendering
                         track.Solo = true;
+                        // reset volume
+                        AudioTrack audioTrack = (AudioTrack)track;
+                        audioTrack.Volume = 1;
                         // null check
                         String regionFilename = String.Format("{0}{1}{2}",
                                                               filename,
