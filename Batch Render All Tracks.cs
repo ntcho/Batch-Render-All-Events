@@ -105,28 +105,31 @@ public class EntryPoint {
             }
             if (RenderMode.Project == renderMode) { // on toggled project mode
                 // actual render part
-                foreach(Track track in myVegas.Project.Tracks) {
+                foreach (Track track in myVegas.Project.Tracks) {
                     if (track.IsAudio()) { // only for preset rendering
                         track.Solo = true;
-                        // reset volume
-                        AudioTrack audioTrack = (AudioTrack)track;
-                        audioTrack.Volume = 1;
-                        // null check
-                        String regionFilename = String.Format("{0}{1}{2}",
-                                                              filename,
-                                                              track.Name,
-                                                              renderItem.Extension); // extension (must be)
-                        RenderArgs args = new RenderArgs();
-                        args.OutputFile = regionFilename;
-                        args.RenderTemplate = renderItem.Template;
-                        // Render
-                        if (track.Events.Count > 0) {
-                            // No events crash fix
-                            args.Start = track.Events[0].Start;
-                            args.Length = track.Events[0].Length;
-                            DoRender(args);
+                        if (track.Name != null) {
+                            // for always on background track
+                            // reset volume
+                            AudioTrack audioTrack = (AudioTrack)track;
+                            audioTrack.Volume = 1;
+                            // null check
+                            String regionFilename = String.Format("{0}{1}{2}",
+                                                                  filename,
+                                                                  track.Name,
+                                                                  renderItem.Extension); // extension (must be)
+                            RenderArgs args = new RenderArgs();
+                            args.OutputFile = regionFilename;
+                            args.RenderTemplate = renderItem.Template;
+                            // Render
+                            if (track.Events.Count > 0) {
+                                // No events crash fix
+                                args.Start = track.Events[0].Start;
+                                args.Length = track.Events[0].Length;
+                                DoRender(args);
+                            }
+                            track.Solo = false;
                         }
-                        track.Solo = false;
                     }
                 }
             } else {
