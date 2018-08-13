@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-using Sony.Vegas;
+using ScriptPortal.Vegas;
 
 public class EntryPoint {
 
@@ -23,7 +23,7 @@ public class EntryPoint {
     String defaultBasePath = "Untitled_";
     const int QUICKTIME_MAX_FILE_NAME_LENGTH = 55;
 
-    Sony.Vegas.Vegas myVegas = null;
+    ScriptPortal.Vegas.Vegas myVegas = null;
 
     enum RenderMode {
         Project = 0,
